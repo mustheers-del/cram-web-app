@@ -13,9 +13,10 @@ export default function CollectionsPage() {
       <main className="bg-[var(--cram-ivory)] pt-[92px]">
         <section className="mx-auto max-w-[1500px] px-6 py-20 md:px-10 md:py-28 lg:px-16">
           <SectionHeader
-            eyebrow="Collections"
+            label="Collections"
             title="Different ways to make something yours."
             description="Explore CRAM by object, purpose and mood."
+            align="left"
           />
 
           <div className="mt-16 grid gap-8 md:grid-cols-2">

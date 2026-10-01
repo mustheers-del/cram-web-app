@@ -13,9 +13,10 @@ export default function ShopPage() {
         <section className="border-b border-black/10">
           <div className="mx-auto max-w-[1500px] px-6 py-20 md:px-10 md:py-28 lg:px-16">
             <SectionHeader
-              eyebrow="The CRAM Shop"
+              label="The CRAM Shop"
               title="Pieces designed to become personal."
               description="Browse our starting designs. Almost every piece can be adapted before we confirm your final quotation."
+              align="left"
             />
           </div>
         </section>

@@ -1,151 +1,255 @@
-﻿"use client";
+'use client';
 
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import React, { useState } from 'react';
+import { Menu, X, User, ArrowRight, Phone } from 'lucide-react';
 
-const items = [
-  ["Shop", "/shop"],
-  ["Collections", "/collections"],
-  ["Custom", "/custom"],
-  ["Our Story", "/our-story"],
-  ["Contact", "/contact"],
-];
+export interface HeaderProps {
+  currentView?: string;
+  onNavigate?: (view: string) => void;
+  onOpenCustomModal?: () => void;
+}
 
-export default function Header() {
-  const [open, setOpen] = useState(false);
-  const [solid, setSolid] = useState(false);
+export const Header: React.FC<HeaderProps> = ({
+  currentView = 'home',
+  onNavigate,
+  onOpenCustomModal,
+}) => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setSolid(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
+  const handleNavClick = (view: string, e?: React.MouseEvent) => {
+    if (e) e.preventDefault();
+    if (onNavigate) {
+      onNavigate(view);
+    } else {
+      // fallback anchor scrolling
+      const target = document.getElementById(view);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    setMobileMenuOpen(false);
+  };
 
   return (
-    <>
-      <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-          solid
-            ? "border-b border-black/10 bg-[rgba(251,246,238,0.9)] backdrop-blur-xl"
-            : "bg-transparent"
-        }`}
-      >
-        <div className="mx-auto flex h-[92px] max-w-[1500px] items-center px-6 md:px-10 lg:px-16">
-          <Link
-            href="/"
-            aria-label="CRAM home"
-            className="cram-editorial text-[2rem] font-semibold leading-none"
+    <div className="fixed top-0 left-0 right-0 z-50">
+      {/* 1. Top Announcement Ribbon */}
+      <aside className="w-full bg-[#ECE7E3] text-[#161513] py-2 px-4 sm:px-8 lg:px-16 text-center border-b border-[#E7DEC8]/60 shadow-[0_1px_3px_rgba(0,0,0,0.02)]">
+        <p className="text-[10px] sm:text-[11px] font-semibold tracking-[0.16em] uppercase text-[#7E5700]">
+          BESPOKE HANDMADE RESIN ARTISTRY • WORLDWIDE SHIPPING • QUOTE-BEFORE-PAYMENT COMMISSIONS
+        </p>
+      </aside>
+
+      {/* 2. Main Navigation Bar */}
+      <header className="w-full bg-[#FBF6EE]/92 backdrop-blur-md border-b border-[#E7DEC8]/80 shadow-[0_4px_24px_-4px_rgba(22,21,19,0.04)]">
+        <div className="h-20 max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-16 flex items-center justify-between gap-4">
+          {/* Brand Mark */}
+          <a
+            href="#home"
+            onClick={(e) => handleNavClick('home', e)}
+            className="flex flex-col group select-none cursor-pointer"
           >
-            CRAM
-          </Link>
+            <span className="font-serif-title text-2xl sm:text-3xl font-semibold tracking-tight text-[#0E6E68] transition-colors group-hover:text-[#0B3F3C] leading-none">
+              CRAM
+            </span>
+            <span className="text-[9px] font-medium tracking-[0.22em] text-[#5B564C] uppercase mt-1 leading-none">
+              Creasthetic Resin And More
+            </span>
+          </a>
 
-          <nav className="mx-auto hidden items-center gap-9 lg:flex">
-            {items.map(([label, href]) => (
-              <Link
-                key={label}
-                href={href}
-                className="group relative text-[0.76rem] font-semibold tracking-[0.05em] text-[var(--cram-stone)]"
-              >
-                {label}
-
-                <span className="absolute -bottom-2 left-0 h-px w-0 bg-[var(--cram-teal)] transition-all duration-300 group-hover:w-full" />
-              </Link>
-            ))}
+          {/* Desktop Navigation Links */}
+          <nav className="hidden lg:flex items-center gap-1.5 xl:gap-2">
+            <button
+              onClick={(e) => handleNavClick('shop', e)}
+              className={`px-3.5 py-1.5 rounded-lg text-sm transition-all cursor-pointer ${
+                currentView === 'shop'
+                  ? 'bg-[#ECE7E3] text-[#0E6E68] font-semibold'
+                  : 'text-[#5B564C] hover:text-[#161513] hover:bg-[#F2EDE9]'
+              }`}
+            >
+              Shop
+            </button>
+            <button
+              onClick={(e) => handleNavClick('collections', e)}
+              className={`px-3.5 py-1.5 rounded-lg text-sm transition-all cursor-pointer ${
+                currentView === 'collections'
+                  ? 'bg-[#ECE7E3] text-[#0E6E68] font-semibold'
+                  : 'text-[#5B564C] hover:text-[#161513] hover:bg-[#F2EDE9]'
+              }`}
+            >
+              Collections
+            </button>
+            <button
+              onClick={(e) => handleNavClick('custom-studio', e)}
+              className={`px-3.5 py-1.5 rounded-lg text-sm transition-all cursor-pointer ${
+                currentView === 'custom-studio'
+                  ? 'bg-[#ECE7E3] text-[#0E6E68] font-semibold'
+                  : 'text-[#5B564C] hover:text-[#161513] hover:bg-[#F2EDE9]'
+              }`}
+            >
+              Custom Studio
+            </button>
+            <button
+              onClick={(e) => handleNavClick('our-story', e)}
+              className={`px-3.5 py-1.5 rounded-lg text-sm transition-all cursor-pointer ${
+                currentView === 'our-story'
+                  ? 'bg-[#ECE7E3] text-[#0E6E68] font-semibold'
+                  : 'text-[#5B564C] hover:text-[#161513] hover:bg-[#F2EDE9]'
+              }`}
+            >
+              Our Story
+            </button>
+            <button
+              onClick={(e) => handleNavClick('contact', e)}
+              className={`px-3.5 py-1.5 rounded-lg text-sm transition-all cursor-pointer ${
+                currentView === 'contact'
+                  ? 'bg-[#ECE7E3] text-[#0E6E68] font-semibold'
+                  : 'text-[#5B564C] hover:text-[#161513] hover:bg-[#F2EDE9]'
+              }`}
+            >
+              Contact
+            </button>
           </nav>
 
-          <div className="ml-auto hidden items-center gap-6 lg:flex">
-            <Link
-              href="/login"
-              className="text-[0.76rem] font-semibold text-[var(--cram-stone)]"
+          {/* Action CTAs */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => {
+                if (onOpenCustomModal) onOpenCustomModal();
+                else handleNavClick('custom-studio');
+              }}
+              className="hidden sm:inline-block text-xs font-semibold text-[#5B564C] hover:text-[#0E6E68] transition-colors px-2 py-1 cursor-pointer"
             >
-              Sign in
-            </Link>
+              Sign In
+            </button>
 
-            <Link
-              href="/custom/request"
-              className="border border-[var(--cram-teal)] bg-[var(--cram-teal)] px-5 py-3 text-[0.73rem] font-semibold text-white transition-all duration-300 hover:bg-transparent hover:text-[var(--cram-teal)]"
+            <button
+              onClick={() => {
+                if (onOpenCustomModal) onOpenCustomModal();
+                else handleNavClick('custom-studio');
+              }}
+              className="inline-flex items-center justify-center text-xs sm:text-sm font-semibold bg-[#0E6E68] text-white px-4 sm:px-5 py-2.5 rounded-full hover:bg-[#0B3F3C] shadow-[0_2px_8px_rgba(14,110,104,0.2)] transition-all transform hover:-translate-y-0.5 cursor-pointer"
             >
-              Start a Creation
-            </Link>
+              <span>Start a Creation</span>
+            </button>
+
+            {/* Profile Avatar Icon */}
+            <div className="w-8 h-8 rounded-full bg-[#0E6E68] text-white flex items-center justify-center shrink-0">
+              <User size={16} />
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(true)}
+              aria-label="Open studio navigation"
+              className="lg:hidden flex items-center justify-center w-10 h-10 rounded-lg text-[#5B564C] hover:bg-[#ECE7E3] transition-colors cursor-pointer"
+            >
+              <Menu size={22} />
+            </button>
           </div>
-
-          <button
-            type="button"
-            aria-label="Open menu"
-            aria-expanded={open}
-            onClick={() => setOpen((value) => !value)}
-            className="ml-auto flex h-11 w-11 items-center justify-end lg:hidden"
-          >
-            <span className="relative block h-4 w-7">
-              <span
-                className={`absolute left-0 top-[3px] h-px w-full bg-[var(--cram-ink)] transition-all ${
-                  open ? "translate-y-[5px] rotate-45" : ""
-                }`}
-              />
-              <span
-                className={`absolute bottom-[3px] left-0 h-px w-full bg-[var(--cram-ink)] transition-all ${
-                  open ? "-translate-y-[5px] -rotate-45" : ""
-                }`}
-              />
-            </span>
-          </button>
         </div>
       </header>
 
+      {/* 3. Mobile Navigation Drawer */}
       <div
-        className={`fixed inset-0 z-40 bg-[var(--cram-ivory)] transition-all duration-300 lg:hidden ${
-          open
-            ? "pointer-events-auto opacity-100"
-            : "pointer-events-none opacity-0"
+        className={`fixed inset-0 z-[60] bg-[#FBF6EE]/98 backdrop-blur-xl transition-all duration-300 flex flex-col justify-between p-6 sm:p-8 ${
+          mobileMenuOpen
+            ? 'opacity-100 pointer-events-auto'
+            : 'opacity-0 pointer-events-none'
         }`}
       >
-        <div className="flex min-h-screen flex-col px-6 pb-10 pt-32">
-          <p className="cram-label mb-8 text-[var(--cram-turquoise)]">
-            CRAM Studio
-          </p>
-
-          <nav className="flex flex-1 flex-col">
-            {items.map(([label, href]) => (
-              <Link
-                key={label}
-                href={href}
-                onClick={() => setOpen(false)}
-                className="border-b border-black/10 py-4 cram-editorial text-[2.7rem] leading-[0.95]"
-              >
-                {label}
-              </Link>
-            ))}
-
-            <Link
-              href="/login"
-              onClick={() => setOpen(false)}
-              className="border-b border-black/10 py-4 cram-editorial text-[2.7rem] leading-[0.95]"
-            >
-              Sign in
-            </Link>
-          </nav>
-
-          <p className="mt-10 max-w-sm text-sm leading-6 text-[var(--cram-stone)]">
-            A personal idea, translated into colour, texture and resin.
-          </p>
-
-          <Link
-            href="/custom/request"
-            onClick={() => setOpen(false)}
-            className="mt-6 bg-[var(--cram-teal)] px-6 py-4 text-center text-sm font-semibold text-white"
+        <div className="flex items-center justify-between border-b border-[#E7DEC8]/80 pb-4">
+          <div className="flex flex-col">
+            <span className="font-serif-title text-2xl text-[#0E6E68] font-semibold">CRAM</span>
+            <span className="text-[9px] tracking-widest text-[#5B564C] uppercase">
+              Creasthetic Resin And More
+            </span>
+          </div>
+          <button
+            onClick={() => setMobileMenuOpen(false)}
+            aria-label="Close navigation"
+            className="w-10 h-10 flex items-center justify-center rounded-lg text-[#5B564C] hover:bg-[#ECE7E3] transition-colors"
           >
-            Start Your Creation
-          </Link>
+            <X size={24} />
+          </button>
+        </div>
+
+        {/* Navigation links in drawer */}
+        <nav className="flex flex-col gap-5 my-auto">
+          <span className="text-[10px] font-semibold text-[#7E5700] tracking-[0.2em] uppercase">
+            Atelier Exhibition
+          </span>
+          <button
+            onClick={(e) => handleNavClick('shop', e)}
+            className="text-left font-serif-title text-2xl text-[#161513] hover:text-[#0E6E68] transition-colors py-1"
+          >
+            Shop Pieces
+          </button>
+          <button
+            onClick={(e) => handleNavClick('collections', e)}
+            className="text-left font-serif-title text-2xl text-[#161513] hover:text-[#0E6E68] transition-colors py-1"
+          >
+            Archival Collections
+          </button>
+          <button
+            onClick={(e) => handleNavClick('custom-studio', e)}
+            className="text-left font-serif-title text-2xl text-[#161513] hover:text-[#0E6E68] transition-colors py-1"
+          >
+            Custom Studio &amp; Quotes
+          </button>
+          <button
+            onClick={(e) => handleNavClick('our-story', e)}
+            className="text-left font-serif-title text-2xl text-[#161513] hover:text-[#0E6E68] transition-colors py-1"
+          >
+            Our Atelier Story
+          </button>
+          <button
+            onClick={(e) => handleNavClick('contact', e)}
+            className="text-left font-serif-title text-2xl text-[#161513] hover:text-[#0E6E68] transition-colors py-1"
+          >
+            Inquire &amp; Contact
+          </button>
+        </nav>
+
+        {/* Direct Patron Line & Quick Actions */}
+        <div className="flex flex-col gap-4 pt-6 bg-[#F8F3EF] p-5 rounded-xl border border-[#E7DEC8]">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] uppercase font-semibold text-[#5B564C] tracking-wider">
+              Direct Patron Line
+            </span>
+            <a
+              href="tel:+919876543210"
+              className="text-xs font-semibold text-[#0E6E68] flex items-center gap-1 hover:underline"
+            >
+              <Phone size={12} />
+              <span>+91 (0) 98765 43210</span>
+            </a>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                if (onOpenCustomModal) onOpenCustomModal();
+              }}
+              className="flex-1 text-center font-medium text-xs sm:text-sm py-3 rounded-lg bg-[#E6E2DE] text-[#161513] hover:bg-[#DCD7D2] transition-colors"
+            >
+              Sign In
+            </button>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                if (onOpenCustomModal) onOpenCustomModal();
+                else handleNavClick('custom-studio');
+              }}
+              className="flex-1 text-center font-medium text-xs sm:text-sm py-3 rounded-lg bg-[#0E6E68] text-white hover:bg-[#0B3F3C] transition-colors shadow-sm"
+            >
+              Bespoke Quote
+            </button>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
-}
+};
+
+export default Header;
