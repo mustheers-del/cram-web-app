@@ -1,21 +1,17 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 :root {
   --cram-ivory: #fbf6ee;
   --cram-paper: #f7f1e6;
   --cram-white: #ffffff;
-
   --cram-ink: #161513;
   --cram-stone: #5b564c;
-
   --cram-turquoise: #0e6e68;
   --cram-teal: #0b3f3c;
-
   --cram-gold: #d9a23b;
-
-  --cram-hot-pink: #e63888;
-  --cram-pastel-pink: #f7d9e4;
-  --cram-sky-blue: #3fa9e0;
+  --cram-pink: #e63888;
+  --cram-soft-pink: #f7d9e4;
+  --cram-blue: #3fa9e0;
 }
 
 * {
@@ -24,15 +20,32 @@
 
 html {
   scroll-behavior: smooth;
+  background: var(--cram-ivory);
 }
 
 body {
   margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
   background: var(--cram-ivory);
   color: var(--cram-ink);
   font-family: var(--font-sans), sans-serif;
-  text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.18;
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(22,21,19,.06) 0 0.6px, transparent 0.7px),
+    radial-gradient(circle at 80% 60%, rgba(22,21,19,.04) 0 0.7px, transparent 0.8px);
+  background-size: 11px 11px, 17px 17px;
+  mix-blend-mode: multiply;
 }
 
 h1,
@@ -45,6 +58,11 @@ h6 {
   font-weight: 500;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 button,
 input,
 textarea,
@@ -52,12 +70,90 @@ select {
   font: inherit;
 }
 
+button,
 a {
-  color: inherit;
-  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  display: block;
+  max-width: 100%;
 }
 
 ::selection {
-  background: var(--cram-pastel-pink);
+  background: var(--cram-soft-pink);
   color: var(--cram-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--cram-turquoise);
+  outline-offset: 4px;
+}
+
+.cram-rule {
+  height: 1px;
+  background: rgba(22, 21, 19, 0.12);
+}
+
+.cram-label {
+  font-size: 0.63rem;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.cram-editorial {
+  font-family: var(--font-serif), serif;
+  letter-spacing: -0.04em;
+}
+
+.cram-lift {
+  transition:
+    transform 280ms ease,
+    box-shadow 280ms ease,
+    opacity 280ms ease;
+}
+
+.cram-lift:hover {
+  transform: translateY(-5px);
+}
+
+.cram-image {
+  transition: transform 700ms cubic-bezier(.16, 1, .3, 1);
+}
+
+.group:hover .cram-image {
+  transform: scale(1.025);
+}
+
+@keyframes cram-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cram-enter {
+  animation: cram-fade-up 700ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.cram-enter-delay {
+  animation: cram-fade-up 850ms 120ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }
