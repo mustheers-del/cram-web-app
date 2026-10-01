@@ -1,69 +1,84 @@
-import Image from "next/image";
+import Header from "@/components/Header";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="min-h-screen bg-[var(--cram-ivory)] text-[var(--cram-ink)]">
+      <Header />
+
+      <section className="mx-auto grid min-h-screen max-w-7xl items-center gap-14 px-6 pb-16 pt-32 md:px-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:px-16">
+        <div className="relative z-10">
+          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.28em] text-[var(--cram-turquoise)]">
+            Handmade Resin Artistry
           </p>
+
+          <h1 className="max-w-3xl text-5xl leading-[0.94] tracking-[-0.035em] sm:text-6xl md:text-7xl lg:text-[5.6rem]">
+            Bespoke Resin Art,
+            <br />
+            Crafted For
+            <br />
+            Your Soul.
+          </h1>
+
+          <p className="mt-7 max-w-xl text-base leading-7 text-[var(--cram-stone)] md:text-lg">
+            Thoughtfully handcrafted resin pieces, personalised keepsakes and
+            custom creations made to feel uniquely yours.
+          </p>
+
+          <p className="mt-5 font-[family-name:var(--font-serif)] text-2xl italic text-[var(--cram-teal)] md:text-3xl">
+            Just created for you!
+          </p>
+
+          <div className="mt-10 flex flex-wrap gap-4">
+            <Link
+              href="/shop"
+              className="bg-[var(--cram-teal)] px-6 py-3.5 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:opacity-90"
+            >
+              Explore Creations
+            </Link>
+
+            <Link
+              href="/custom/request"
+              className="border border-[var(--cram-ink)] px-6 py-3.5 text-sm font-semibold transition duration-200 hover:bg-[var(--cram-ink)] hover:text-white"
+            >
+              Create Something Custom
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="relative mx-auto w-full max-w-xl lg:max-w-none">
+          <div className="relative aspect-[4/5] overflow-hidden bg-[var(--cram-paper)]">
+            <div className="absolute left-[8%] top-[10%] h-[42%] w-[56%] rotate-[-8deg] rounded-[48%_52%_42%_58%/55%_40%_60%_45%] bg-[var(--cram-pastel-pink)] opacity-80" />
+
+            <div className="absolute right-[4%] top-[18%] h-[48%] w-[56%] rotate-[12deg] rounded-[55%_45%_58%_42%/40%_55%_45%_60%] bg-[var(--cram-turquoise)] opacity-85" />
+
+            <div className="absolute bottom-[8%] left-[17%] h-[44%] w-[62%] rotate-[4deg] rounded-[45%_55%_48%_52%/60%_42%_58%_40%] border border-[var(--cram-gold)] bg-white/45 backdrop-blur-[2px]" />
+
+            <div className="absolute left-[12%] top-[13%] h-10 w-10 rounded-full border border-[var(--cram-gold)]" />
+
+            <div className="absolute bottom-[15%] right-[10%] h-16 w-16 rounded-full bg-[var(--cram-hot-pink)] opacity-70" />
+
+            <div className="absolute inset-x-8 bottom-8 border-t border-black/10 pt-4">
+              <p className="text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-[var(--cram-stone)]">
+                Crafted by hand
+              </p>
+
+              <p className="mt-1 font-[family-name:var(--font-serif)] text-2xl">
+                Made to become yours.
+              </p>
+            </div>
+          </div>
+
+          <div className="absolute -bottom-5 -left-4 hidden border border-black/10 bg-[var(--cram-ivory)] px-5 py-4 md:block">
+            <p className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[var(--cram-turquoise)]">
+              Personal by nature
+            </p>
+            <p className="mt-1 font-[family-name:var(--font-serif)] text-xl">
+              No two pieces alike.
+            </p>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+    </main>
   );
 }
