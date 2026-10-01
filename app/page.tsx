@@ -79,6 +79,41 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <section className="border-t border-black/10 bg-[var(--cram-paper)]">
+  <div className="mx-auto max-w-7xl px-6 py-24 md:px-10 md:py-32 lg:px-16 lg:py-40">
+    <div className="max-w-5xl">
+      <p className="mb-6 text-xs font-semibold uppercase tracking-[0.28em] text-[var(--cram-turquoise)]">
+        The CRAM Story
+      </p>
+
+      <h2 className="text-4xl leading-[1.05] tracking-[-0.025em] sm:text-5xl md:text-6xl lg:text-7xl">
+        Every piece begins
+        <br />
+        with an idea.
+      </h2>
+
+      <div className="mt-10 grid gap-10 md:grid-cols-2 md:gap-16">
+        <p className="max-w-lg text-base leading-8 text-[var(--cram-stone)] md:text-lg">
+          Then colour. Then texture. Then resin. Slowly, thoughtfully,
+          something personal begins to take shape.
+        </p>
+
+        <p className="max-w-lg text-base leading-8 text-[var(--cram-stone)] md:text-lg">
+          CRAM creates pieces that are not simply purchased. They are imagined,
+          personalised and handcrafted to become something uniquely yours.
+        </p>
+      </div>
+
+      <div className="mt-16 border-t border-black/10 pt-8 md:mt-20">
+        <p className="max-w-4xl font-[family-name:var(--font-serif)] text-3xl italic leading-tight text-[var(--cram-teal)] md:text-5xl">
+          From an idea, to colour, to texture, to resin — and finally, to
+          something made just for you.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
     </main>
   );
 }
