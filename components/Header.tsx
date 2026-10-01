@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Menu, X, User, ArrowRight, Phone } from 'lucide-react';
+import { Menu, X, User, Phone } from 'lucide-react';
 
 export interface HeaderProps {
   currentView?: string;

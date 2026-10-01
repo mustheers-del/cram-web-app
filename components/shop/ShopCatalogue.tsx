@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Droplet, Shield, Wrench, ArrowRight, Check, SlidersHorizontal, Eye } from 'lucide-react';
+import { Droplet, Shield, Wrench, ArrowRight, SlidersHorizontal } from 'lucide-react';
 import { ALL_PRODUCTS, ProductItem } from '../../data/products';
 
 export interface ShopCatalogueProps {
@@ -159,6 +159,8 @@ export const ShopCatalogue: React.FC<ShopCatalogueProps> = ({
                 className="product-card group flex flex-col bg-[#FFFFFF] rounded-xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-[#E7DEC8]"
               >
                 <div className="relative w-full aspect-[4/5] bg-[#F2EDE9] overflow-hidden">
+                  {/* Temporary external placeholder; replace with local product photography. */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={item.image}
                     alt={item.altText}

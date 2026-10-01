@@ -3,7 +3,7 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import SectionHeader from '../ui/SectionHeader';
-import { COLLECTIONS, CollectionItem } from '../../data/products';
+import { COLLECTIONS } from '../../data/products';
 
 export interface CollectionsProps {
   onSelectCollection?: (collectionId: string) => void;
@@ -31,6 +31,8 @@ export const Collections: React.FC<CollectionsProps> = ({ onSelectCollection }) 
             >
               {/* Image Frame */}
               <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#F2EDE9]">
+                {/* Temporary external placeholder; replace with local product photography. */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={col.image}
                   alt={col.altText}

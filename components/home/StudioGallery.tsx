@@ -37,6 +37,8 @@ export const StudioGallery: React.FC = () => {
               key={item.id}
               className={`${item.colSpanClass} rounded-xl overflow-hidden bg-[#F2EDE9] relative group shadow-xs border border-[#E7DEC8] ${item.aspectClass}`}
             >
+              {/* Temporary external placeholder; replace with local product photography. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={item.image}
                 alt={item.altText}

@@ -30,6 +30,8 @@ export const FeaturedProducts: React.FC<FeaturedProductsProps> = ({ onCustomizeP
               <div>
                 {/* Square Product Image Frame */}
                 <div className="relative aspect-square w-full rounded-lg overflow-hidden bg-[#F2EDE9] mb-4">
+                  {/* Temporary external placeholder; replace with local product photography. */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={product.image}
                     alt={product.altText}

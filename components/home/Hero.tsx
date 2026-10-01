@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ArrowRight, ShieldCheck, Palette, Sparkles } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Palette } from 'lucide-react';
 
 export interface HeroProps {
   onExplore?: () => void;
@@ -110,6 +110,8 @@ export const Hero: React.FC<HeroProps> = ({ onExplore, onStartCustom }) => {
               {/* Elevated Matboard Art Frame */}
               <div className="bg-[#FFFFFF] p-3 sm:p-5 rounded-2xl shadow-xl border border-[#E7DEC8] transition-transform duration-700 hover:scale-[1.01]">
                 <div className="relative overflow-hidden rounded-xl aspect-[4/5] sm:aspect-[4/3] lg:aspect-[5/4] w-full bg-[#F2EDE9]">
+                  {/* Temporary external placeholder; replace with local product photography. */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuRzkD5HWtwzk3Hpa1EieINKkA7vkFEga-Eh3mzQhGj1-_m6TYYhRE_s7AksajbyQC2yB4lIrgX_089-8pJf0cPReqcK9Gb976KzLE2HXcxMPuPga_kXaS3cfUkhXr7oiCE3aHGfiyBsPoj6QIwsBThl91XaLjoy-4BW9fsYqbEIT5XeX7TtbdlYRmkr76j8JfRv1Ti0AhsLVirnA_b6fbLO47-GUWwhWbgemeBrH-HErARLHZz1jV"
                     alt="Artisanal serving tray with crystal clear epoxy resin, real dried white hydrangeas, gold leaf flakes, and soft sage botanicals."

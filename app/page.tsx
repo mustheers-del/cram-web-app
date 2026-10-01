@@ -100,7 +100,7 @@ export default function HomePage() {
             />
 
             <Collections
-              onSelectCollection={(collectionId) => {
+              onSelectCollection={() => {
                 setCurrentView('shop');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}

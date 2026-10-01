@@ -35,12 +35,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${cormorant.variable} ${plusJakarta.variable} scroll-smooth`}>
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-          rel="stylesheet"
-        />
-      </head>
       <body className="bg-[#FBF6EE] text-[#161513] font-sans antialiased selection:bg-[#0E6E68]/20 selection:text-[#0E6E68]">
         {children}
       </body>
