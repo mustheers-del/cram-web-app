@@ -42,3 +42,4 @@ next-env.d.ts
 
 # Brud Code workspace history
 .brud/
+.env
