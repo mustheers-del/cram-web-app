@@ -1,118 +1,79 @@
-import React from 'react';
+import type { ReactNode } from "react";
 
-export interface SectionHeaderProps {
+interface SectionHeaderProps {
   label?: string;
-  title: string;
+  title: ReactNode;
   description?: string;
-  quote?: string;
-  align?: 'left' | 'center' | 'between';
-  className?: string;
+  align?: "left" | "center" | "between";
   dark?: boolean;
+  className?: string;
 }
 
-export const SectionHeader: React.FC<SectionHeaderProps> = ({
+export default function SectionHeader({
   label,
   title,
   description,
-  quote,
-  align = 'between',
-  className = '',
+  align = "between",
   dark = false,
-}) => {
-  const isCentered = align === 'center';
-  const isBetween = align === 'between';
+  className = "",
+}: SectionHeaderProps) {
+  const labelEl = label ? (
+    <p className={`eyebrow ${dark ? "text-gold" : "text-turquoise"}`}>
+      {label}
+    </p>
+  ) : null;
 
-  if (isCentered) {
-    return (
-      <div className={`text-center max-w-2xl mx-auto mb-12 md:mb-16 ${className}`}>
-        {label && (
-          <span className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-[#7E5700] mb-2.5">
-            {label}
-          </span>
-        )}
-        <h2
-          className={`text-3xl sm:text-4xl md:text-[42px] font-normal tracking-tight font-serif-title leading-[1.2] mb-4 ${
-            dark ? 'text-white' : 'text-[#161513]'
-          }`}
-        >
-          {title}
-        </h2>
-        {description && (
-          <p
-            className={`text-sm sm:text-base leading-relaxed ${
-              dark ? 'text-[#E6E2DE]' : 'text-[#5B564C]'
-            }`}
-          >
-            {description}
-          </p>
-        )}
-      </div>
-    );
-  }
+  const titleEl = (
+    <h2
+      className={`mt-4 font-serif-title text-[clamp(2rem,1.4rem+2.6vw,3.25rem)] leading-[1.06] tracking-[-0.012em] text-balance ${
+        dark ? "text-ivory" : "text-ink"
+      }`}
+    >
+      {title}
+    </h2>
+  );
 
-  if (isBetween) {
+  const descEl = description ? (
+    <p
+      className={`text-base leading-8 ${
+        dark ? "text-ivory/70" : "text-stone"
+      } ${align === "center" ? "mx-auto mt-5 max-w-xl" : "max-w-md md:pb-1"}`}
+    >
+      {description}
+    </p>
+  ) : null;
+
+  if (align === "center") {
     return (
       <div
-        className={`flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-8 mb-12 md:mb-16 ${className}`}
+        className={`mx-auto mb-12 max-w-2xl text-center md:mb-16 ${className}`}
       >
-        <div className="max-w-xl">
-          {label && (
-            <span className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-[#7E5700] mb-2.5">
-              {label}
-            </span>
-          )}
-          <h2
-            className={`text-3xl sm:text-4xl md:text-[42px] font-normal tracking-tight font-serif-title leading-[1.2] ${
-              dark ? 'text-white' : 'text-[#161513]'
-            }`}
-          >
-            {title}
-          </h2>
-        </div>
-        {description && (
-          <p
-            className={`text-sm sm:text-base max-w-md leading-relaxed ${
-              dark ? 'text-[#E6E2DE]' : 'text-[#5B564C]'
-            }`}
-          >
-            {description}
-          </p>
-        )}
-        {quote && (
-          <p className="font-serif-title italic text-xl sm:text-2xl text-[#7E5700] md:text-right shrink-0">
-            {quote}
-          </p>
-        )}
+        {labelEl}
+        {titleEl}
+        {descEl}
       </div>
     );
   }
 
-  // Align left
-  return (
-    <div className={`max-w-2xl mb-12 md:mb-16 ${className}`}>
-      {label && (
-        <span className="block text-[11px] font-semibold uppercase tracking-[0.2em] text-[#7E5700] mb-2.5">
-          {label}
-        </span>
-      )}
-      <h2
-        className={`text-3xl sm:text-4xl md:text-[42px] font-normal tracking-tight font-serif-title leading-[1.2] mb-3 ${
-          dark ? 'text-white' : 'text-[#161513]'
-        }`}
+  if (align === "between") {
+    return (
+      <div
+        className={`mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between md:gap-10 ${className}`}
       >
-        {title}
-      </h2>
-      {description && (
-        <p
-          className={`text-sm sm:text-base leading-relaxed ${
-            dark ? 'text-[#E6E2DE]' : 'text-[#5B564C]'
-          }`}
-        >
-          {description}
-        </p>
-      )}
+        <div className="max-w-xl">
+          {labelEl}
+          {titleEl}
+        </div>
+        {descEl}
+      </div>
+    );
+  }
+
+  return (
+    <div className={`mb-12 max-w-2xl md:mb-16 ${className}`}>
+      {labelEl}
+      {titleEl}
+      {descEl && <div className="mt-5">{descEl}</div>}
     </div>
   );
-};
-
-export default SectionHeader;
+}

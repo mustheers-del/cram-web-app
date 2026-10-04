@@ -1,154 +1,126 @@
-'use client';
+import type { CSSProperties } from "react";
+import Link from "next/link";
+import { ArrowRight, ShieldCheck } from "lucide-react";
+import ArtworkImage from "@/components/ui/ArtworkImage";
 
-import React from 'react';
-import { ArrowRight, ShieldCheck, Palette } from 'lucide-react';
+/* Stagger index for the page-load sequence (see .rise in globals.css). */
+const step = (index: number) => ({ "--i": index }) as CSSProperties;
 
-export interface HeroProps {
-  onExplore?: () => void;
-  onStartCustom?: () => void;
-}
-
-export const Hero: React.FC<HeroProps> = ({ onExplore, onStartCustom }) => {
+export default function Hero() {
   return (
-    <section className="relative w-full pt-32 sm:pt-36 pb-20 md:pb-28 lg:pb-36 bg-[#FBF6EE] overflow-hidden">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-16 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Left Editorial Copy */}
-          <div className="lg:col-span-6 flex flex-col items-start pr-0 lg:pr-6">
-            {/* Tag Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#FFDEAB]/40 text-[#5F4100] mb-6 shadow-xs border border-[#D9A23B]/20">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#7E5700]"></span>
-              <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.16em]">
-                Handmade Resin Artistry • India
-              </span>
-            </div>
+    <section className="relative overflow-hidden bg-ivory" data-testid="hero">
+      <div
+        aria-hidden="true"
+        className="ring-drift pointer-events-none absolute -top-40 -left-40 h-[420px] w-[420px] rounded-full border border-turquoise/10"
+      />
 
-            {/* Main Headline */}
-            <h1 className="font-serif-title text-4xl sm:text-5xl lg:text-[58px] text-[#161513] mb-6 leading-[1.12] tracking-tight">
-              Resin art,
-              <br />
-              <span className="italic font-normal text-[#0E6E68]">made personal.</span>
-            </h1>
-
-            {/* Subtext */}
-            <p className="text-base sm:text-lg text-[#5B564C] max-w-xl mb-8 leading-relaxed font-normal">
-              Handmade resin pieces created around your colours, memories, celebrations and ideas.
+      <div className="wrap grid items-center gap-14 pt-36 pb-20 sm:pt-44 md:pb-28 lg:grid-cols-12 lg:gap-10 lg:pb-36">
+        <div className="lg:col-span-6">
+          <div className="rise flex items-center gap-4" style={step(0)}>
+            <span className="h-px w-10 bg-gold" aria-hidden="true" />
+            <p className="eyebrow text-turquoise">
+              Handmade Resin Artistry
             </p>
-
-            {/* Reassurance Card */}
-            <div className="w-full bg-[#F8F3EF] p-4 sm:p-5 rounded-xl shadow-xs border border-[#E7DEC8] mb-8 flex items-start gap-3.5">
-              <div className="w-7 h-7 rounded-full bg-[#D9A23B]/15 text-[#7E5700] flex items-center justify-center shrink-0 mt-0.5">
-                <ShieldCheck size={18} />
-              </div>
-              <p className="text-xs sm:text-sm text-[#5B564C] leading-relaxed">
-                <strong className="text-[#161513] font-semibold">
-                  Every bespoke CRAM piece is crafted on quote approval.
-                </strong>{' '}
-                Share your vision, receive an upfront quote, and watch your piece come to life.
-              </p>
-            </div>
-
-            {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto">
-              <button
-                onClick={onExplore}
-                className="inline-flex items-center justify-center px-7 py-3.5 rounded-lg bg-[#0E6E68] text-white font-medium text-sm sm:text-base shadow-md hover:bg-[#0B3F3C] hover:-translate-y-0.5 transition-all cursor-pointer"
-              >
-                Explore Creations
-              </button>
-
-              <button
-                onClick={onStartCustom}
-                className="inline-flex items-center justify-center px-6 py-3.5 rounded-lg bg-[#ECE7E3] text-[#161513] font-medium text-sm sm:text-base shadow-xs hover:bg-[#E2DDD8] transition-all group cursor-pointer border border-[#E7DEC8]"
-              >
-                <span>Start a Custom Order</span>
-                <ArrowRight
-                  size={16}
-                  className="ml-2 text-[#0E6E68] transition-transform group-hover:translate-x-1"
-                />
-              </button>
-            </div>
-
-            {/* Editorial Metrics */}
-            <div className="mt-12 pt-8 w-full border-t border-[#E7DEC8]/80 flex items-center justify-between sm:justify-start sm:gap-12 text-[#5B564C]">
-              <div className="flex flex-col">
-                <span className="font-serif-title text-2xl sm:text-3xl text-[#0E6E68] font-normal">
-                  72hr
-                </span>
-                <span className="text-[10px] uppercase tracking-wider font-semibold text-[#7E5700]">
-                  Slow-Cure Process
-                </span>
-              </div>
-              <div className="w-px h-8 bg-[#E7DEC8]"></div>
-              <div className="flex flex-col">
-                <span className="font-serif-title text-2xl sm:text-3xl text-[#0E6E68] font-normal">
-                  100%
-                </span>
-                <span className="text-[10px] uppercase tracking-wider font-semibold text-[#7E5700]">
-                  Tailored Palette
-                </span>
-              </div>
-              <div className="w-px h-8 bg-[#E7DEC8]"></div>
-              <div className="flex flex-col">
-                <span className="font-serif-title text-2xl sm:text-3xl text-[#0E6E68] font-normal">
-                  0
-                </span>
-                <span className="text-[10px] uppercase tracking-wider font-semibold text-[#7E5700]">
-                  Hidden Surcharges
-                </span>
-              </div>
-            </div>
           </div>
 
-          {/* Right Hero Visual Plinth */}
-          <div className="lg:col-span-6 relative mt-10 lg:mt-0">
-            <div className="relative mx-auto max-w-[560px] lg:max-w-none">
-              {/* Ambient Atmospheric Halos */}
-              <div className="absolute -top-10 -right-10 w-72 h-72 rounded-full bg-[#FFDEAB]/35 blur-3xl -z-10 pointer-events-none"></div>
-              <div className="absolute -bottom-10 -left-10 w-80 h-80 rounded-full bg-[#A0F1E9]/25 blur-3xl -z-10 pointer-events-none"></div>
+          <h1
+            className="rise mt-7 font-serif-title text-[clamp(2.6rem,1.9rem+4.4vw,4.75rem)] leading-[1.02] tracking-[-0.015em] text-balance"
+            style={step(1)}
+          >
+            Resin art,
+            <br />
+            <span className="italic text-turquoise">made personal.</span>
+          </h1>
 
-              {/* Elevated Matboard Art Frame */}
-              <div className="bg-[#FFFFFF] p-3 sm:p-5 rounded-2xl shadow-xl border border-[#E7DEC8] transition-transform duration-700 hover:scale-[1.01]">
-                <div className="relative overflow-hidden rounded-xl aspect-[4/5] sm:aspect-[4/3] lg:aspect-[5/4] w-full bg-[#F2EDE9]">
-                  {/* Temporary external placeholder; replace with local product photography. */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuRzkD5HWtwzk3Hpa1EieINKkA7vkFEga-Eh3mzQhGj1-_m6TYYhRE_s7AksajbyQC2yB4lIrgX_089-8pJf0cPReqcK9Gb976KzLE2HXcxMPuPga_kXaS3cfUkhXr7oiCE3aHGfiyBsPoj6QIwsBThl91XaLjoy-4BW9fsYqbEIT5XeX7TtbdlYRmkr76j8JfRv1Ti0AhsLVirnA_b6fbLO47-GUWwhWbgemeBrH-HErARLHZz1jV"
-                    alt="Artisanal serving tray with crystal clear epoxy resin, real dried white hydrangeas, gold leaf flakes, and soft sage botanicals."
-                    className="w-full h-full object-cover"
-                    loading="eager"
-                  />
+          <p
+            className="rise mt-7 max-w-xl text-base leading-8 text-stone sm:text-lg"
+            style={step(2)}
+          >
+            CRAM creates handmade resin pieces around your colours,
+            memories, celebrations, gifting and ideas — shaped to feel
+            personal to you.
+          </p>
 
-                  {/* Floating Art Label Tag */}
-                  <div className="absolute bottom-4 left-4 right-4 bg-[#FBF6EE]/92 backdrop-blur-md p-3.5 sm:p-4 rounded-xl shadow-md border border-[#E7DEC8] flex items-center justify-between">
-                    <div className="flex flex-col">
-                      <span className="text-[10px] tracking-[0.2em] uppercase text-[#7E5700] font-semibold">
-                        Atelier Specimen 014
-                      </span>
-                      <span className="font-serif-title text-base sm:text-lg text-[#161513] font-medium">
-                        Bespoke Botanica &amp; Gold Tray
-                      </span>
-                    </div>
-                    <span className="px-3 py-1 bg-[#ECE7E3] text-[#0E6E68] text-[11px] rounded-full uppercase tracking-wider font-semibold border border-[#E7DEC8]">
-                      Custom Order
-                    </span>
-                  </div>
-                </div>
+          <div
+            className="rise mt-7 flex max-w-xl items-start gap-3 border-l-2 border-gold/60 pl-4"
+            style={step(3)}
+          >
+            <ShieldCheck
+              size={18}
+              aria-hidden="true"
+              className="mt-1 shrink-0 text-turquoise"
+            />
+
+            <p className="text-sm leading-7 text-stone">
+              <strong className="font-semibold text-ink">
+                Quotation-first, always.
+              </strong>{" "}
+              Share your idea, receive a personalised quote, and pay only
+              once you approve it.
+            </p>
+          </div>
+
+          <div
+            className="rise mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
+            style={step(4)}
+          >
+            <Link
+              href="/shop"
+              data-testid="hero-explore"
+              className="btn-primary"
+            >
+              Explore Creations
+            </Link>
+
+            <Link
+              href="/custom/request"
+              data-testid="hero-start-custom"
+              className="btn-outline group"
+            >
+              Start a Custom Order
+
+              <ArrowRight
+                size={16}
+                aria-hidden="true"
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </Link>
+          </div>
+        </div>
+
+        <div className="lg:col-span-6">
+          <div
+            className="rise relative mx-auto max-w-[560px]"
+            style={step(3)}
+          >
+            <div
+              className="absolute -top-5 -right-5 hidden h-full w-full border border-gold/50 sm:block"
+              aria-hidden="true"
+            />
+
+            <div className="art-frame group relative bg-ivory shadow-[0_24px_60px_-28px_rgba(22,21,19,0.28)]">
+              <div className="relative aspect-[4/5] sm:aspect-[5/5]">
+                <ArtworkImage
+                  alt="Abstract resin-inspired composition in the CRAM studio palette"
+                  tone="teal"
+                  motif={1}
+                  priority
+                  ambient
+                  sizes="(max-width: 1024px) 100vw, 560px"
+                />
               </div>
 
-              {/* Floating Subtle Badge */}
-              <div className="absolute -bottom-5 -left-3 sm:-left-6 bg-[#FFFFFF] shadow-lg rounded-xl p-3 sm:p-3.5 hidden sm:flex items-center gap-3 border border-[#E7DEC8]">
-                <div className="w-10 h-10 rounded-full bg-[#0E6E68]/10 flex items-center justify-center text-[#0E6E68]">
-                  <Palette size={20} />
+              <div className="flex items-end justify-between gap-4 border-t border-ink/10 bg-ivory px-5 py-4">
+                <div>
+                  <p className="eyebrow text-stone">From the CRAM studio</p>
+                  <p className="mt-1 font-serif-title text-xl">
+                    Made around your idea
+                  </p>
                 </div>
-                <div className="flex flex-col">
-                  <span className="text-[10px] text-[#5B564C] uppercase tracking-wider font-semibold">
-                    Pigment Mastery
-                  </span>
-                  <span className="text-xs sm:text-sm font-semibold text-[#161513]">
-                    Hand-Poured in India
-                  </span>
-                </div>
+
+                <p className="hidden font-serif-title text-lg italic text-turquoise sm:block">
+                  Just created for you!
+                </p>
               </div>
             </div>
           </div>
@@ -156,6 +128,4 @@ export const Hero: React.FC<HeroProps> = ({ onExplore, onStartCustom }) => {
       </div>
     </section>
   );
-};
-
-export default Hero;
+}

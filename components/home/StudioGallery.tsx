@@ -1,63 +1,51 @@
-'use client';
+import Reveal from "@/components/ui/Reveal";
+import SectionHeader from "@/components/ui/SectionHeader";
+import ArtworkImage from "@/components/ui/ArtworkImage";
+import { galleryItems } from "@/data/products";
 
-import React from 'react';
-import { Camera } from 'lucide-react';
-import { GALLERY_ITEMS } from '../../data/products';
-
-export const StudioGallery: React.FC = () => {
+export default function StudioGallery() {
   return (
-    <section id="studio-gallery" className="w-full py-20 lg:py-28 bg-[#F8F3EF] border-t border-[#E7DEC8]/80">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-16">
-        {/* Header with Instagram Link */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-          <div>
-            <span className="text-[10px] sm:text-[11px] font-semibold text-[#7E5700] tracking-[0.2em] uppercase block mb-1">
-              Live from our Workbench
-            </span>
-            <h2 className="font-serif-title text-3xl sm:text-4xl text-[#161513] font-normal">
-              FROM THE CRAM STUDIO
-            </h2>
-          </div>
+    <section
+      className="border-t border-parchment bg-paper py-20 md:py-28"
+      data-testid="studio-gallery"
+    >
+      <div className="wrap">
+        <Reveal>
+          <SectionHeader
+            label="From the CRAM studio"
+            title="Process, pigment, pieces."
+            description="A glimpse into the colours, textures and creative details that inspire CRAM's resin pieces."
+          />
+        </Reveal>
 
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-[#0E6E68] text-xs sm:text-sm font-semibold hover:text-[#0B3F3C] transition-colors"
-          >
-            <Camera size={18} />
-            <span>@cram.resinart</span>
-          </a>
-        </div>
-
-        {/* Organic Multi-Aspect Ratio Gallery Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4">
-          {GALLERY_ITEMS.map((item) => (
-            <div
+        {/* Desktop uses fixed row units so tiles share clean top and bottom edges. */}
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-12 lg:auto-rows-[clamp(180px,17vw,260px)]">
+          {galleryItems.map((item, index) => (
+            <Reveal
               key={item.id}
-              className={`${item.colSpanClass} rounded-xl overflow-hidden bg-[#F2EDE9] relative group shadow-xs border border-[#E7DEC8] ${item.aspectClass}`}
+              delay={(index % 3) * 80}
+              className={item.className}
             >
-              {/* Temporary external placeholder; replace with local product photography. */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={item.image}
-                alt={item.altText}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                loading="lazy"
-              />
+              <figure className="group relative h-full w-full overflow-hidden">
+                <div className="art-frame absolute inset-0">
+                  <ArtworkImage
+                    alt={item.title}
+                    tone={item.tone}
+                    motif={item.motif}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw"
+                  />
+                </div>
 
-              {/* Hover overlay with label */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-5 flex items-end">
-                <span className="text-xs sm:text-sm text-white font-medium drop-shadow-sm">
-                  {item.title}
-                </span>
-              </div>
-            </div>
+                <figcaption className="pointer-events-none absolute inset-0 flex items-end bg-gradient-to-t from-ink/70 via-ink/10 to-transparent p-4 opacity-0 transition-opacity duration-500 group-hover:opacity-100 sm:p-5 [@media(hover:none)]:opacity-100">
+                  <span className="translate-y-1.5 text-sm font-medium leading-snug text-ivory transition-transform duration-500 [transition-timing-function:var(--ease-soft)] group-hover:translate-y-0 [@media(hover:none)]:translate-y-0">
+                    {item.title}
+                  </span>
+                </figcaption>
+              </figure>
+            </Reveal>
           ))}
         </div>
       </div>
     </section>
   );
-};
-
-export default StudioGallery;
+}

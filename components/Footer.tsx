@@ -1,284 +1,115 @@
-'use client';
+import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 
-import React, { useState } from 'react';
-import { ArrowRight, Check } from 'lucide-react';
+const exploreLinks = [
+  { label: "Shop all creations", href: "/shop" },
+  { label: "Collections", href: "/collections" },
+  { label: "Custom studio", href: "/custom" },
+  { label: "Request a quote", href: "/custom/request" },
+];
 
-export interface FooterProps {
-  onNavigate?: (view: string) => void;
+const studioLinks = [
+  { label: "Our Story", href: "/our-story" },
+  { label: "Contact", href: "/contact" },
+  { label: "Sign In", href: "/login" },
+  { label: "Create account", href: "/signup" },
+];
+
+function LinkGroup({
+  title,
+  links,
+}: {
+  title: string;
+  links: { label: string; href: string }[];
+}) {
+  return (
+    <nav aria-label={title}>
+      <h2 className="eyebrow text-gold">{title}</h2>
+
+      <ul className="mt-6 space-y-3.5">
+        {links.map((item) => (
+          <li key={item.href}>
+            <Link
+              href={item.href}
+              className="foot-link text-[0.9375rem] text-white/70"
+            >
+              {item.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
-  const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      setSubscribed(true);
-      setTimeout(() => setSubscribed(false), 4000);
-      setEmail('');
-    }
-  };
-
-  const handleLink = (view: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    if (onNavigate) {
-      onNavigate(view);
-    } else {
-      const target = document.getElementById(view);
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
+export default function Footer() {
   return (
-    <footer className="w-full bg-[#161513] text-[#F5F0EC] pt-16 md:pt-20 pb-10 border-t border-[#32302E] shadow-[0_-4px_24px_rgba(0,0,0,0.06)]">
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 mb-16">
-          {/* Brand Info & Newsletter */}
-          <div className="lg:col-span-4 flex flex-col gap-3">
-            <div className="flex flex-col">
-              <span className="font-serif-title text-2xl sm:text-3xl font-semibold tracking-tight text-[#84D5CD]">
+    <footer
+      className="on-dark border-t border-white/10 bg-ink text-ivory"
+      data-testid="footer"
+    >
+      <div className="wrap py-16 md:py-24">
+        <div className="grid gap-14 border-b border-white/10 pb-14 md:pb-16 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-5">
+            <Link
+              href="/"
+              className="group inline-flex flex-col"
+              data-testid="footer-logo"
+            >
+              <span className="font-serif-title text-4xl font-semibold tracking-tight text-[#8AD7D0] transition-colors duration-300 group-hover:text-white">
                 CRAM
               </span>
-              <span className="text-[10px] tracking-widest text-[#BEC9C7] uppercase font-medium">
+
+              <span className="mt-1.5 text-[10px] uppercase tracking-[0.22em] text-white/55">
                 Creasthetic Resin And More
               </span>
-            </div>
+            </Link>
 
-            <p className="font-serif-title italic text-xl text-[#FFDEAB] mt-1">
-              “Just created for you!”
+            <p className="mt-7 font-serif-title text-[1.75rem] italic leading-tight text-gold sm:text-3xl">
+              Just created for you!
             </p>
 
-            <p className="text-sm text-[#E6E2DE] max-w-sm leading-relaxed mt-1">
-              A tactile resin atelier crafting bespoke heirlooms, fluid ocean scapes, and
-              one-of-a-kind preserved botanical curiosities. Slow-cured by hand in our Indian
-              studio.
+            <p className="mt-5 max-w-md text-sm leading-7 text-white/65">
+              Handmade resin pieces shaped around colour, memories,
+              celebrations, gifting and ideas that feel personal.
             </p>
 
-            {/* Newsletter Subscription */}
-            <div className="mt-4">
-              <span className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[#BEC9C7] block mb-2">
-                Studio Releases &amp; Private Previews
-              </span>
-              <form onSubmit={handleSubscribe} className="flex items-center max-w-sm bg-[#FFFFFF]/10 rounded-lg p-1 border border-[#FFFFFF]/15 focus-within:border-[#84D5CD] transition-colors">
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="patron@domain.com"
-                  className="bg-transparent text-white text-xs sm:text-sm px-3 py-2 w-full outline-none placeholder:text-[#BEC9C7]/70"
-                />
-                <button
-                  type="submit"
-                  className="bg-[#0E6E68] text-white text-xs font-semibold px-4 py-2 rounded-md hover:bg-[#0B3F3C] transition-colors shrink-0 flex items-center gap-1 cursor-pointer"
-                >
-                  {subscribed ? (
-                    <>
-                      <Check size={14} />
-                      <span>Joined</span>
-                    </>
-                  ) : (
-                    <span>Join</span>
-                  )}
-                </button>
-              </form>
+            <Link
+              href="/custom/request"
+              data-testid="footer-start-creation"
+              className="btn-primary group mt-9"
+            >
+              Start a Custom Order
+              <ArrowUpRight
+                size={16}
+                aria-hidden="true"
+                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 gap-8 lg:col-span-6 lg:col-start-7">
+            <LinkGroup title="Explore" links={exploreLinks} />
+
+            <div>
+              <LinkGroup title="Studio" links={studioLinks} />
+
+              <p className="mt-9 max-w-[16rem] text-xs leading-6 text-white/45">
+                Studio contact and social details will appear here once
+                they are confirmed.
+              </p>
             </div>
-          </div>
-
-          {/* Shop & Collections Column */}
-          <div className="lg:col-span-3 flex flex-col gap-2">
-            <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#FFDEAB] mb-2">
-              Shop &amp; Collections
-            </span>
-            <ul className="flex flex-col gap-2.5 text-xs sm:text-sm text-[#E6E2DE]">
-              <li>
-                <a
-                  href="#featured-creations"
-                  onClick={(e) => handleLink('shop', e)}
-                  className="hover:text-[#84D5CD] transition-colors"
-                >
-                  Hand-Poured Trays
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#featured-creations"
-                  onClick={(e) => handleLink('shop', e)}
-                  className="hover:text-[#84D5CD] transition-colors"
-                >
-                  Geode &amp; Crystal Coasters
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#featured-creations"
-                  onClick={(e) => handleLink('shop', e)}
-                  className="hover:text-[#84D5CD] transition-colors"
-                >
-                  Botanical Keepsakes
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#featured-creations"
-                  onClick={(e) => handleLink('shop', e)}
-                  className="hover:text-[#84D5CD] transition-colors"
-                >
-                  Signature Resin Jewellery
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#collections"
-                  onClick={(e) => handleLink('collections', e)}
-                  className="hover:text-[#84D5CD] transition-colors"
-                >
-                  One-of-a-Kind Editions
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#custom-flow"
-                  onClick={(e) => handleLink('custom-studio', e)}
-                  className="hover:text-[#84D5CD] transition-colors"
-                >
-                  Bespoke Commissions
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Experience Column */}
-          <div className="lg:col-span-2 flex flex-col gap-2">
-            <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#FFDEAB] mb-2">
-              Experience
-            </span>
-            <ul className="flex flex-col gap-2.5 text-xs sm:text-sm text-[#E6E2DE]">
-              <li>
-                <a
-                  href="#custom-flow"
-                  onClick={(e) => handleLink('custom-studio', e)}
-                  className="hover:text-[#84D5CD] transition-colors"
-                >
-                  How Quotes Work
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#why-cram"
-                  onClick={(e) => handleLink('our-story', e)}
-                  className="hover:text-[#84D5CD] transition-colors"
-                >
-                  Resin Care Guide
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#custom-flow"
-                  onClick={(e) => handleLink('custom-studio', e)}
-                  className="hover:text-[#84D5CD] transition-colors"
-                >
-                  Commission Process
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#faq"
-                  onClick={(e) => handleLink('contact', e)}
-                  className="hover:text-[#84D5CD] transition-colors"
-                >
-                  Patron FAQs
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#custom-banner"
-                  onClick={(e) => handleLink('contact', e)}
-                  className="hover:text-[#84D5CD] transition-colors"
-                >
-                  Studio Inquiries
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Studio & Legal Column */}
-          <div className="lg:col-span-3 flex flex-col gap-2">
-            <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#FFDEAB] mb-2">
-              Studio &amp; Legal
-            </span>
-            <ul className="flex flex-col gap-2.5 text-xs sm:text-sm text-[#E6E2DE]">
-              <li>
-                <a
-                  href="#why-cram"
-                  onClick={(e) => handleLink('our-story', e)}
-                  className="hover:text-[#84D5CD] transition-colors"
-                >
-                  Our Atelier Story
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#studio-gallery"
-                  onClick={(e) => handleLink('our-story', e)}
-                  className="hover:text-[#84D5CD] transition-colors"
-                >
-                  Studio Journal
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  onClick={(e) => e.preventDefault()}
-                  className="hover:text-[#84D5CD] transition-colors"
-                >
-                  Privacy &amp; Archival Data
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  onClick={(e) => e.preventDefault()}
-                  className="hover:text-[#84D5CD] transition-colors"
-                >
-                  Terms of Bespoke Commission
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://wa.me/919876543210"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-[#84D5CD] hover:underline transition-colors flex items-center gap-1.5"
-                >
-                  <span>WhatsApp Studio Desk</span>
-                  <ArrowRight size={12} />
-                </a>
-              </li>
-            </ul>
           </div>
         </div>
 
-        {/* Bottom Attribution Bar */}
-        <div className="pt-8 border-t border-[#32302E] flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-[#E6E2DE]">
-          <div className="flex items-center gap-2 text-center sm:text-left">
-            <span className="w-2 h-2 rounded-full bg-[#84D5CD] inline-block animate-pulse shrink-0"></span>
-            <span>© 2025 CRAM (Creasthetic Resin And More). Hand-cured with devotion in India.</span>
-          </div>
+        <div className="flex flex-col gap-2 pt-7 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between">
+          <p>
+            © {new Date().getFullYear()} CRAM — Creasthetic Resin And More
+          </p>
 
-          <div className="flex items-center gap-3">
-            <span className="text-[10px] tracking-widest uppercase text-[#FFDEAB] bg-[#FFFFFF]/10 px-3 py-1 rounded-full border border-[#FFFFFF]/10 font-semibold">
-              Tactile Craft Heritage
-            </span>
-            <span className="text-[10px] tracking-widest uppercase text-[#BEC9C7] font-semibold">
-              Global Secure Delivery
-            </span>
-          </div>
+          <p>Handmade resin artistry · Quotation-first custom orders</p>
         </div>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

@@ -1,55 +1,710 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --color-ivory: #FBF6EE;
-    --color-paper: #F7F1E6;
-    --color-ink: #161513;
-    --color-stone: #5B564C;
-    --color-turquoise: #0E6E68;
-    --color-darkteal: #0B3F3C;
-    --color-gold: #D9A23B;
-    --color-softpink: #F7D9E4;
-    --color-hotpink: #E63888;
-    --color-skyblue: #3FA9E0;
-    --color-parchment: #E7DEC8;
-  }
+@theme {
+  --color-ivory: #FBF6EE;
+  --color-paper: #F7F1E6;
+  --color-ink: #161513;
+  --color-stone: #5B564C;
+  --color-turquoise: #0E6E68;
+  --color-darkteal: #0B3F3C;
+  --color-gold: #D9A23B;
+  --color-hotpink: #E63888;
+  --color-softpink: #F7D9E4;
+  --color-skyblue: #3FA9E0;
+  --color-parchment: #E7DEC8;
+  --color-sandline: #E4DACB;
+  --color-fieldline: #DDD3C4;
+}
 
+/* Motion + layout tokens. Kept on :root (not @theme) so they are always emitted. */
+:root {
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Promo bar (32) + header (80). Header.tsx flips this to 64px when compact. */
+  --header-h: 112px;
+}
+
+html[data-header="compact"] {
+  --header-h: 64px;
+}
+
+@layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--header-h) + 1rem);
   }
 
   body {
-    background-color: #FBF6EE;
-    color: #161513;
-    font-family: var(--font-sans, 'Plus Jakarta Sans', sans-serif);
+    background-color: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans), "Plus Jakarta Sans", ui-sans-serif, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
-  h1, h2, h3, .font-serif-title {
-    font-family: var(--font-serif, 'Playfair Display', 'Cormorant Garamond', serif);
+  h1,
+  h2,
+  h3,
+  .font-serif-title {
+    font-family: var(--font-serif), "Cormorant Garamond", ui-serif, serif;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a,
+  button {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-turquoise);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: rgba(14, 110, 104, 0.18);
+    color: var(--color-darkteal);
   }
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #F7F1E6;
+  background: var(--color-paper);
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #E7DEC8;
+  background: var(--color-parchment);
   border-radius: 9999px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #5B564C;
+  background: var(--color-stone);
+}
+
+@layer components {
+  .wrap {
+    @apply mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-16;
+  }
+
+  .page-top {
+    padding-top: 112px;
+  }
+
+  /* Elements that sit directly under the fixed header and stay put on scroll. */
+  .sticky-under-header {
+    position: sticky;
+    top: var(--header-h);
+    transition: top 0.35s var(--ease-soft);
+  }
+
+  .skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 100;
+    padding: 0.75rem 1.25rem;
+    border-radius: 9999px;
+    background: var(--color-ink);
+    color: var(--color-ivory);
+    font-size: 0.875rem;
+    font-weight: 600;
+    transform: translateY(-200%);
+    transition: transform 0.25s var(--ease-soft);
+  }
+
+  .skip-link:focus-visible {
+    transform: translateY(0);
+    outline-color: var(--color-gold);
+  }
+
+  /* ---------- Typography ---------- */
+
+  .eyebrow {
+    @apply text-[11px] font-bold uppercase tracking-[0.22em];
+  }
+
+  .title-page {
+    font-family: var(--font-serif), "Cormorant Garamond", ui-serif, serif;
+    font-size: clamp(2.5rem, 1.7rem + 3.7vw, 4.5rem);
+    line-height: 1.02;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  .title-card {
+    font-family: var(--font-serif), "Cormorant Garamond", ui-serif, serif;
+    font-size: clamp(1.75rem, 1.35rem + 1.5vw, 2.5rem);
+    line-height: 1.12;
+    letter-spacing: -0.005em;
+    text-wrap: balance;
+  }
+
+  .lede {
+    font-size: 1.0625rem;
+    line-height: 1.85;
+  }
+
+  @media (min-width: 640px) {
+    .lede {
+      font-size: 1.1875rem;
+    }
+  }
+
+  /* ---------- Buttons & links ---------- */
+
+  .btn {
+    @apply inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-full px-7 text-sm font-semibold tracking-wide transition-[transform,background-color,color,border-color,box-shadow] duration-300 select-none;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn:active {
+    transform: translateY(0);
+    transition-duration: 0.1s;
+  }
+
+  .btn-primary {
+    @apply inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-full bg-turquoise px-7 text-sm font-semibold tracking-wide text-white shadow-[0_2px_10px_rgba(14,110,104,0.22)] transition-[transform,background-color,color,border-color,box-shadow] duration-300 select-none hover:bg-darkteal;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 26px -12px rgba(11, 63, 60, 0.6);
+  }
+
+  .btn-primary:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(14, 110, 104, 0.25);
+    transition-duration: 0.1s;
+  }
+
+  .btn-outline {
+    @apply inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-ink/30 bg-transparent px-7 text-sm font-semibold tracking-wide text-ink transition-[transform,background-color,color,border-color,box-shadow] duration-300 select-none hover:border-ink hover:bg-ink hover:text-ivory;
+  }
+
+  .btn-outline:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn-light {
+    @apply inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-full bg-ivory px-7 text-sm font-semibold tracking-wide text-darkteal transition-[transform,background-color,color,border-color,box-shadow] duration-300 select-none hover:bg-white;
+  }
+
+  .btn-light:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 28px -14px rgba(0, 0, 0, 0.55);
+  }
+
+  /* Quiet outlined button for dark-teal panels. */
+  .btn-ghost-light {
+    @apply inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-ivory/40 bg-transparent px-7 text-sm font-semibold tracking-wide text-ivory transition-[transform,background-color,color,border-color] duration-300 select-none hover:border-ivory hover:bg-ivory hover:text-darkteal;
+  }
+
+  .btn-ghost-light:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn-gold {
+    @apply inline-flex min-h-12 cursor-pointer items-center justify-center gap-2 rounded-full bg-gold px-7 text-sm font-semibold tracking-wide text-ink transition-[transform,background-color,color,border-color,box-shadow] duration-300 select-none hover:bg-[#c78f29];
+  }
+
+  .btn-gold:hover {
+    transform: translateY(-1px);
+  }
+
+  .link-line {
+    @apply relative inline-flex items-center gap-1.5 text-sm font-semibold text-turquoise transition-colors duration-300 hover:text-darkteal;
+  }
+
+  .link-line::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    height: 1px;
+    width: 100%;
+    background: currentColor;
+    transform: scaleX(0.35);
+    transform-origin: left;
+    transition: transform 0.35s var(--ease-soft);
+  }
+
+  .link-line:hover::after,
+  .group:hover .link-line::after,
+  .group:focus-visible .link-line::after {
+    transform: scaleX(1);
+  }
+
+  .nav-link {
+    @apply relative inline-flex min-h-11 items-center px-1 text-sm font-medium text-stone transition-colors duration-300 hover:text-ink;
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 6px;
+    height: 1.5px;
+    background: var(--color-turquoise);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s var(--ease-soft);
+  }
+
+  .nav-link:hover::after,
+  .nav-link[data-active="true"]::after {
+    transform: scaleX(1);
+  }
+
+  .nav-link[data-active="true"] {
+    color: var(--color-turquoise);
+    font-weight: 600;
+  }
+
+  /* Footer links: underline slides in from the left. */
+  .foot-link {
+    display: inline-block;
+    padding-bottom: 2px;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0 1px;
+    transition:
+      background-size 0.35s var(--ease-soft),
+      color 0.3s ease;
+  }
+
+  .foot-link:hover,
+  .foot-link:focus-visible {
+    color: #8ad7d0;
+    background-size: 100% 1px;
+  }
+
+  /* ---------- Forms ---------- */
+
+  .field {
+    @apply min-h-12 w-full rounded-xl border border-fieldline bg-white px-4 text-sm text-ink transition-[border-color,box-shadow] duration-200 outline-none placeholder:text-stone/50 focus:border-turquoise focus:ring-2 focus:ring-turquoise/15;
+  }
+
+  .field:hover:not(:focus) {
+    border-color: rgba(14, 110, 104, 0.45);
+  }
+
+  /* Only after the person has interacted, so empty required fields aren't shouted at. */
+  .field:user-invalid {
+    border-color: var(--color-hotpink);
+  }
+
+  .field:user-invalid:focus {
+    box-shadow: 0 0 0 2px rgba(230, 56, 136, 0.15);
+  }
+
+  select.field {
+    appearance: none;
+    padding-right: 2.5rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%230E6E68' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 14px;
+  }
+
+  .field-label {
+    @apply mb-2 block text-[11px] font-bold uppercase tracking-[0.14em] text-stone;
+  }
+
+  /* ---------- Artwork ---------- */
+
+  .art-frame {
+    @apply relative overflow-hidden border border-ink/10 bg-paper;
+    transition:
+      box-shadow 0.5s var(--ease-soft),
+      border-color 0.5s var(--ease-soft);
+  }
+
+  .art-media {
+    transition: transform 0.7s var(--ease-soft);
+  }
+
+  @media (hover: hover) {
+    .group:hover .art-media {
+      transform: scale(1.035);
+    }
+
+    .group:hover .art-frame {
+      box-shadow: 0 22px 40px -28px rgba(22, 21, 19, 0.38);
+    }
+  }
+
+  /* Placeholder-only: a soft resin sheen that sits above the composition. */
+  .art-sheen {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(110% 80% at 18% 8%, rgba(255, 255, 255, 0.34), transparent 55%),
+      radial-gradient(90% 70% at 85% 100%, rgba(11, 63, 60, 0.1), transparent 60%);
+  }
+
+  /* ---------- Process steps (ProcessSteps.tsx) ---------- */
+
+  .steps {
+    display: grid;
+    gap: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .step {
+    position: relative;
+    padding-left: 4.25rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .steps > li:last-child .step {
+    padding-bottom: 0;
+  }
+
+  .step__marker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    height: 3rem;
+    width: 3rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    border: 1px solid rgba(217, 162, 59, 0.6);
+    background: var(--step-bg, var(--color-ivory));
+    font-family: var(--font-serif), "Cormorant Garamond", ui-serif, serif;
+    font-size: 1.125rem;
+    color: var(--color-darkteal);
+    transition:
+      background-color 0.4s ease,
+      border-color 0.4s ease,
+      color 0.4s ease;
+  }
+
+  .step:hover .step__marker {
+    background: var(--color-darkteal);
+    border-color: var(--color-darkteal);
+    color: var(--color-ivory);
+  }
+
+  /* Vertical rail on mobile */
+  .step__line {
+    position: absolute;
+    left: 1.5rem;
+    top: 3.5rem;
+    bottom: 0.5rem;
+    width: 1px;
+    background: linear-gradient(to bottom, rgba(217, 162, 59, 0.7), rgba(217, 162, 59, 0.25));
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  .steps > li:last-child .step__line {
+    display: none;
+  }
+
+  .step.reveal-visible .step__line {
+    transform: scaleY(1);
+    transition: transform 0.9s var(--ease-soft) 0.3s;
+  }
+
+  @media (min-width: 768px) {
+    .steps {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      column-gap: 1.5rem;
+    }
+
+    .step {
+      padding: 0;
+    }
+
+    .step__marker {
+      position: relative;
+    }
+
+    /* Horizontal connector from one marker to the next */
+    .step__line {
+      left: 3.5rem;
+      right: -1rem;
+      top: 1.5rem;
+      bottom: auto;
+      width: auto;
+      height: 1px;
+      background: linear-gradient(to right, rgba(217, 162, 59, 0.7), rgba(217, 162, 59, 0.2));
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+
+    .step.reveal-visible .step__line {
+      transform: scaleX(1);
+    }
+  }
+
+  /* ---------- Brand values (ValueList.tsx) ---------- */
+
+  .value-num {
+    font-family: var(--font-serif), "Cormorant Garamond", ui-serif, serif;
+    font-size: 2.75rem;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    font-variant-numeric: lining-nums;
+    color: var(--color-gold);
+  }
+
+  .value-num::after {
+    content: "";
+    display: block;
+    width: 1.75rem;
+    height: 1px;
+    margin-top: 1rem;
+    background: currentColor;
+    opacity: 0.7;
+    transition: width 0.5s var(--ease-soft);
+  }
+
+  .value-card:hover .value-num::after {
+    width: 3.25rem;
+  }
+
+  /* ---------- Disclosure (FAQ) ---------- */
+
+  .disclosure {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s var(--ease-soft);
+  }
+
+  .disclosure[data-open="true"] {
+    grid-template-rows: 1fr;
+  }
+
+  .disclosure > div {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  /* ---------- Misc utilities ---------- */
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Soft edge fade for horizontally scrolling chip rows (below lg only). */
+  .scroll-fade-x {
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 1.25rem, #000 calc(100% - 1.75rem), transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 1.25rem, #000 calc(100% - 1.75rem), transparent 100%);
+  }
+
+  @media (min-width: 1024px) {
+    .scroll-fade-x {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+  }
+
+  /* Dark surfaces: keyboard focus uses gold so it stays visible on teal/ink. */
+  .on-dark :focus-visible {
+    outline-color: var(--color-gold);
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+/* ---------- Motion ---------- */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.6s var(--ease-soft);
+  will-change: opacity, transform;
+}
+
+.reveal.reveal-visible {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* One orchestrated page-load sequence (hero, auth). Stagger with --i. */
+.rise {
+  opacity: 0;
+  animation: rise 0.6s var(--ease-soft) both;
+  animation-delay: calc(var(--i, 0) * 90ms + 60ms);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.pop-in {
+  animation: pop-in 0.35s var(--ease-soft) both;
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Ambient layers. Slow, small, and only applied where asked for. */
+.ring-drift {
+  animation: ring-drift 26s var(--ease-inout) infinite alternate;
+}
+
+.ring-drift-slow {
+  animation: ring-drift 38s var(--ease-inout) infinite alternate-reverse;
+}
+
+@keyframes ring-drift {
+  from {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+
+  to {
+    translate: -14px 18px;
+    rotate: 6deg;
+  }
+}
+
+.ambient-a {
+  animation: ambient 16s var(--ease-inout) infinite alternate;
+}
+
+.ambient-b {
+  animation: ambient 21s var(--ease-inout) infinite alternate-reverse;
+}
+
+.ambient-c {
+  animation: ambient 12s var(--ease-inout) infinite alternate;
+}
+
+@keyframes ambient {
+  from {
+    translate: 0 0;
+    scale: 1;
+  }
+
+  to {
+    translate: 1.5% -2.5%;
+    scale: 1.03;
+  }
+}
+
+/* Success mark (SuccessMark.tsx) */
+.draw-circle {
+  stroke-dasharray: 170;
+  stroke-dashoffset: 170;
+  animation: draw 0.9s var(--ease-soft) 0.1s forwards;
+}
+
+.draw-check {
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: draw 0.5s var(--ease-soft) 0.7s forwards;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal,
+  .rise {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: none;
+  }
+
+  .step__line {
+    transform: none;
+  }
+
+  .ring-drift,
+  .ring-drift-slow,
+  .ambient-a,
+  .ambient-b,
+  .ambient-c {
+    animation: none;
+  }
+
+  .btn:hover,
+  .btn-primary:hover,
+  .btn-outline:hover,
+  .btn-light:hover,
+  .btn-ghost-light:hover,
+  .btn-gold:hover {
+    transform: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Custom studio: the request summary stays in view beside the form on desktop. */
+@media (min-width: 1024px) and (min-height: 620px) {
+  .studio-sticky {
+    position: sticky;
+    top: calc(var(--header-h) + 1.5rem);
+    transition: top 0.35s var(--ease-soft);
   }
 }

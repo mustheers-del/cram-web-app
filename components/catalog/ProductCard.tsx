@@ -1,60 +1,64 @@
-﻿import Image from "next/image";
 import Link from "next/link";
-import type { Product } from "@/lib/site-data";
-import { formatPrice } from "@/lib/site-data";
+import { ArrowRight } from "lucide-react";
+import ArtworkImage from "@/components/ui/ArtworkImage";
+import { formatPrice, type Product } from "@/data/products";
 
 export default function ProductCard({ product }: { product: Product }) {
   return (
-    <article className="group">
-      <Link href={`/products/${product.slug}`} className="block">
-        <div className="relative aspect-[4/5] overflow-hidden border border-black/10 bg-[var(--cram-paper)]">
-          <Image
+    <article
+      className="group"
+      data-testid={`product-card-${product.slug}`}
+    >
+      <Link
+        href={`/products/${product.slug}`}
+        className="block focus-visible:outline-offset-4"
+      >
+        <div className="art-frame relative aspect-[4/5]">
+          <ArtworkImage
             src={product.image}
-            alt={product.name}
-            fill
-            className="cram-image object-cover"
+            alt={product.altText}
+            tone={product.tone}
+            motif={product.slug.length % 5}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
 
-          {product.customizable && (
-            <span className="absolute left-4 top-4 bg-[var(--cram-ivory)] px-3 py-2 text-[0.57rem] font-bold uppercase tracking-[0.2em]">
-              Customizable
-            </span>
-          )}
+          <span className="absolute top-3.5 left-3.5 bg-ivory/90 px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-ink backdrop-blur-[2px]">
+            Customisable
+          </span>
         </div>
 
         <div className="pt-5">
-          <p className="cram-label text-[var(--cram-turquoise)]">
-            {product.category}
+          <p className="eyebrow text-turquoise">
+            {product.categoryLabel}
           </p>
 
-          <div className="mt-3 flex items-start justify-between gap-5">
-            <h3 className="cram-editorial text-[1.8rem] leading-tight">
-              {product.name}
-            </h3>
+          <h3 className="mt-2 font-serif-title text-[1.65rem] leading-[1.1] tracking-[-0.005em] text-ink transition-colors duration-300 group-hover:text-turquoise">
+            {product.name}
+          </h3>
 
-            <span className="pt-2 text-lg transition-transform duration-300 group-hover:translate-x-1">
-              →
-            </span>
-          </div>
-
-          <p className="mt-3 max-w-md text-sm leading-6 text-[var(--cram-stone)]">
+          <p className="mt-2.5 line-clamp-2 text-sm leading-6 text-stone">
             {product.description}
           </p>
 
-          <div className="mt-5 flex items-end justify-between border-t border-black/10 pt-4">
+          <div className="mt-5 flex items-end justify-between gap-4 border-t border-ink/10 pt-4 transition-colors duration-500 group-hover:border-turquoise/40">
             <div>
-              <p className="text-[0.58rem] font-bold uppercase tracking-[0.19em] text-[var(--cram-stone)]">
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-stone">
                 Starting at
               </p>
 
-              <p className="mt-1 cram-editorial text-2xl">
+              <p className="mt-1 font-serif-title text-[1.4rem] leading-none text-ink">
                 {formatPrice(product.startingPrice)}
               </p>
             </div>
 
-            <p className="text-xs font-semibold">
-              Request quote
-            </p>
+            <span className="link-line text-xs">
+              Customize &amp; request quote
+              <ArrowRight
+                size={13}
+                aria-hidden="true"
+                className="transition-transform duration-300 group-hover:translate-x-0.5"
+              />
+            </span>
           </div>
         </div>
       </Link>
